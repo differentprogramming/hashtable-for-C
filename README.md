@@ -5,7 +5,7 @@ The license is public domain, which is also the license for the included spooky 
 
 Read hashtable.h for detailed descriptions.
 
-I am doing a little work on Tiny C compiler and I tool needed a hashtable and it had to be in C.
+I am doing a little work on Tiny C compiler and a tool needed a hashtable and it had to be in portable C.
 
 I tried a badly too fancy library off the web that used macros to try to implement some generic programming.  The result was unreadable code that turned out to be buggy.
 
