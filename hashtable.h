@@ -65,7 +65,7 @@ static inline bool HashIteratorAtEnd(HashIterator *i)
 static inline uint64_t hash_string_with_seed(const char *s, uint64_t seed)
 {
 	size_t len = strlen(s);
-	return spooky_hash64(s, (size_t)len, (uint64_t)len^seed);
+	return spooky_hash64(s, len+1, (uint64_t)len^seed);
 }
 /* has a standard seed for hash tables */
 uint64_t hash_string(const char *s);
