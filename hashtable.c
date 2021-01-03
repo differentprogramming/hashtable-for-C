@@ -7,6 +7,11 @@
 
 #include "hashtable.h"
 
+static inline bool HashEmpty(HashTable *h, int at)
+{
+	return h->data[at].key == NULL;
+}
+
 bool InitHashIterator(HashIterator *hi, HashTable *h)
 {
 	int i;
