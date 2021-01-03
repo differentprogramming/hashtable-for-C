@@ -62,11 +62,6 @@ static inline bool HashIteratorAtEnd(HashIterator *i)
 	return i->pos == i->h->number_of_entries;
 }
 
-static inline bool HashEmpty(HashTable *h, int at)
-{
-	return h->data[at].key == NULL;
-}
-
 static inline uint64_t hash_string_with_seed(const char *s, uint64_t seed)
 {
 	size_t len = strlen(s);
