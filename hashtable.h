@@ -77,6 +77,8 @@ uint64_t hash_string(const char *s);
 
 
 void InitHashTable(HashTable*h);
+
+/* Note, if there are any items left in the table they will be cleaned up */
 void DeleteHashTable(HashTable*h);
 
 /* returns a HashEntry if the element is found, NULL otherwise */
