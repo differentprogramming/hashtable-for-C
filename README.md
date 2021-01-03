@@ -23,5 +23,3 @@ None of the code is thread safe.
 There is a forward iterator. You can safely delete while iterating but only by using a delete function that deletes the item that the iterator is on, this advances the iterator. Any other operations on the hash table invalidate the iterator.
 
 ... Another part of this project includes generating a perfect hash (a perfect hash is one that takes a set list of items and generates a hash table that has no collisions for those items).  That works and uses the same kind of hashing.  Perhaps in the future I'll put in a function to convert one of these hash tables into a perfect hash.
-
-... Another thing I could add in the future is an option to trust the hash function and never bother to actually compare strings.  The probablily that a 64 bit hash will have a false collision is low enough that I can imagine situations where you want the speed more than you want a guarantee against a probability of failure that's astronomically low.
