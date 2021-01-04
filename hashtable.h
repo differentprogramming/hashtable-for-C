@@ -25,8 +25,9 @@ replaced depends on the passed "replace" flag, and the value that is not in the
 table at the end of the insert is cleaned up with CleanUpHashValue.
 4) The code relies on spooky hash.
 5) The find, insert and iterators return pointers to whole entry structs, keep in
-mind that these entry structs can be moved on insert, so don't keep the pointers 
-around, they're only meant for temporary use.
+mind that these entry structs can be moved when the table resizes on inserts that
+go up to 1/2 the table size, so don't keep the pointers around, they're only meant
+for temporary use.
 
 The hash table uses external lists for collisions but the table stays at least 
 as big as twice the number of elements so there shouldn't be too many collisions.
