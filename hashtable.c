@@ -19,10 +19,11 @@ bool InitHashIterator(HashIterator *hi, HashTable *h)
 	hi->pos = 0;
 	hi->cur_entry = NULL;
 	hi->cur_slot = 0;
-	for (i = 0; i < hi->h->HASH_SIZE; ++i) if (hi->h->data[i].key != NULL) break;
+	HashEntry * d = &hi->h->data[0];//because TCC doesn't have any optimizations.
+	for (i = 0; i < hi->h->HASH_SIZE; ++i) if (d[i].key != NULL) break;
 	if (i == hi->h->HASH_SIZE) return false;//table is empty
 	hi->cur_slot = i;
-	hi->cur_entry = &hi->h->data[i];
+	hi->cur_entry = &d[i];
 	return true;
 }
 
@@ -53,7 +54,7 @@ bool HashDeleteU(HashTable *h, HashEntry *p, bool save_key)
 	--h->number_of_entries;
 	if (!save_key) {
 		free((void *)p->key);
-		CleanUpHashValue(p->value);
+		CleanupHashValue(p->value);
 	}
 	if (p->prev == NULL) {//inline entry
 		if (p->next == NULL) {//no next entry
@@ -162,19 +163,22 @@ HashInsertStatus HashInsert(HashTable *h, HashEntry** ptr, const char *s, HashVa
 		return HS_Found;
 	}
 	else {
-		HashEntry *prev = *ptr;
+		/*I know the dance with p is confusing, but because TCC has no optimization, I hand optimize a little */
+		p = *ptr;
+		HashEntry *prev = p;
 		if (prev->key == NULL)
 		{
 			prev = NULL;
 		}
 		else {
-			(*ptr)->next = calloc(1, sizeof(HashEntry));
-			*ptr = (*ptr)->next;
+			p->next = calloc(1, sizeof(HashEntry));
+			p = p->next;
+			*ptr = p;
 		}
-		(*ptr)->prev = prev;
-		(*ptr)->key = strdup(s);
-		(*ptr)->value = v;
-		(*ptr)->hash_value = hash_value;
+		p->prev = prev;
+		p->key = strdup(s);
+		p->value = v;
+		p->hash_value = hash_value;
 		if (++h->number_of_entries >= h->HASH_SIZE >> 1) ExpandHashTable(h);
 		return HS_Inserted;
 	}
