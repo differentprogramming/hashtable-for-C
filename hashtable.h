@@ -46,7 +46,7 @@ end of HashInsert to expand earlier.
 
 /****** User supply type and clean up code for value ***************************/
 typedef int HashValueType;
-extern void CleanUpHashValue(HashValueType v);
+extern void CleanupHashValue(HashValueType v);
 /***************************************************************/
 
 typedef struct HashEntry_st {
