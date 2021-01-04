@@ -3,16 +3,18 @@
 #include "spooky.h"
 
 /* A simple hash table with the following assumptions:
-1) they keys are strings up to length MAX_HASH_STRING_SIZE
-a) the keys handed to the routines are constants and it's not up to the routines to own or clean them up.
+1) The keys are strings up to length MAX_HASH_STRING_SIZE.
+a) The keys handed to the routines are constants and it's not up to the routines to own or clean them up.
 b) strings will be copied into keys, and the Hash functions will manage that memory.
-2) The table starts at INITIAL_HASH_SIZE and will grow as necessary to mostly avoid collisions
-3) the value at a key is of type HashValueType and either has value semantics or the values passed to insert are already owned by the table and no copying is necessary;
-a) to redefine the type, change the code in this include file
+2) The table starts at INITIAL_HASH_SIZE and will grow as necessary to mostly avoid collisions.
+3) The value at a key is of type HashValueType and either has value semantics or the values passed to insert are already owned by the table and no copying is necessary;
+a) To redefine the type, change the code in this include file.  
 b) Supply a function CleanUpHashValue(HashValueType).  If it has value semantics, then make a function that does nothing, if it has other semantics then it deletes data.
-c) note, if you Insert and a value is already at that spot, then whether it is replaced depends on the passed "replace" flag, and the value that is not in the table at the end
+c) The code assumes that a HashValueType can be moved with a simple assignment.  HashValueTypes ARE moved, so if your value data has to be kept in the same spot in memory for its lifetime then HashValueType better be a pointer to the data.
+d) note, if you Insert and a value is already at that spot, then whether it is replaced depends on the passed "replace" flag, and the value that is not in the table at the end
 of the insert is cleaned up with CleanUpHashValue.
-4) the code relies on spooky hash
+4) The code relies on spooky hash.
+5) The find, insert and iterators return pointers to whole entry structs, keep in mind that these entry structs can be moved on insert, so don't keep the pointers around, they're only meant for temporary use.
 
 The hash table uses external lists for collisions but the table stays at least as big as twice the number of elements so there shouldn't be too many collisions.
 The elements of the hash table are not points they're embedded Entry structs, so not very much external calls to malloc and free will be necessary.
